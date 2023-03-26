@@ -2,6 +2,7 @@
 node_modules
 /dist
 
+webapi/obj/Debug/*
 
 # local env files
 .env.local
@@ -16,6 +17,7 @@ pnpm-debug.log*
 # Editor directories and files
 .idea
 .vscode
+.vs
 *.suo
 *.ntvs*
 *.njsproj
