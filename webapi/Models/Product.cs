@@ -6,6 +6,6 @@
 
         public string Name { get; set; } = string.Empty;
 
-        public int Price { get; set; }
+        public int Price { get; set; } = int.MaxValue;
     }
 }
