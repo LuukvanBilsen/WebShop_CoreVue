@@ -1,42 +1,50 @@
-﻿using webapi.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using webapi.Data;
+using webapi.Models;
 
 namespace webapi.Services.ProductService
 {
     public class ProductService : IProductService
     {
-        private static List<Product> products = new List<Product> {
 
-            new Product { Id = 0, Name="Samsung Galaxy a33", Price=99900},
-            new Product { Id = 1, Name="Iphone", Price=120000},
-            new Product { Id = 2, Name = "AOC-monitor", Price = 500 }
-        };
+        private readonly DatabaseContext _dbContext;
 
-        public List<Product> AddProduct(Product product)
+        public ProductService(DatabaseContext databaseContext)
         {
-            products.Add(product);
-            return products;
+            _dbContext = databaseContext;
         }
 
-        public List<Product>? DeleteProduct(int id)
+        public async Task<List<Product>> AddProduct(Product product)
         {
-            var found = products.Find(x => x.Id == id);
+            _dbContext.Products.Add(product);
+            await _dbContext.SaveChangesAsync();
+
+            return await _dbContext.Products.ToListAsync();
+        }
+
+        public async Task<List<Product>?> DeleteProduct(int id)
+        {
+            var found = await _dbContext.Products.FindAsync(id);
 
             if (found == null)
                 return null;
 
-            products.Remove(found);
+            _dbContext.Products.Remove(found);
+            await _dbContext.SaveChangesAsync();
+
+            return await _dbContext.Products.ToListAsync();
+        }
+
+        public async Task<List<Product>> GetAllProducts()
+        {
+            var products = await _dbContext.Products.ToListAsync();
 
             return products;
         }
 
-        public List<Product> GetAllProducts()
+        public async Task<Product?> GetSingleProduct(int id)
         {
-            return products.ToList();
-        }
-
-        public Product? GetSingleProduct(int id)
-        {
-            var found = products.Find(x => x.Id == id);
+            var found = await _dbContext.Products.FindAsync(id);
 
             if (found == null)
                 return null;
@@ -44,18 +52,19 @@ namespace webapi.Services.ProductService
             return found;
         }
 
-        public List<Product>? UpdateProduct(int id, Product request)
+        public async Task<List<Product>?> UpdateProduct(int id, Product request)
         {
-            var found = products.Find(x => x.Id == id);
+            var found = await _dbContext.Products.FindAsync(id);
 
             if (found == null)
                 return null;
 
-            found.Id = request.Id; // ToDo ?
             found.Name = request.Name;
             found.Price = request.Price;
 
-            return products;
+            await _dbContext.SaveChangesAsync();
+
+            return await _dbContext.Products.ToListAsync();
         }
     }
 }

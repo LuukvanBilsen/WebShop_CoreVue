@@ -1,4 +1,5 @@
 using webapi.Services.ProductService;
+using webapi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddDbContext<DatabaseContext>();
 
 var app = builder.Build();
 
@@ -20,9 +22,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

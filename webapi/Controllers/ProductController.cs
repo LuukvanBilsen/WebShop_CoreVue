@@ -19,15 +19,13 @@ namespace webapi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetAllProducts()
         {
-            var results = _productService.GetAllProducts();
-
-            return Ok(results);
+            return await _productService.GetAllProducts();
         }
 
         [HttpGet("{id}")] 
         public async Task<ActionResult<Product>> GetSingleProduct(int id)
         {
-            var result = _productService.GetSingleProduct(id);
+            var result = await _productService.GetSingleProduct(id);
 
             if (result == null)
                 return NotFound("Product not found");
@@ -38,7 +36,7 @@ namespace webapi.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Product>>> AddProduct(Product product)
         {
-            var results = _productService.AddProduct(product);
+            var results = await _productService.AddProduct(product);
 
             return Ok(results);
         }
@@ -46,7 +44,7 @@ namespace webapi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<List<Product>>> updateProduct(int id, Product request)
         {
-            var results = _productService.UpdateProduct(id, request);
+            var results = await _productService.UpdateProduct(id, request);
 
             if (results == null)
                 return NotFound("Product not found");
@@ -58,7 +56,7 @@ namespace webapi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<Product>>> DeleteSingleProduct(int id)
         {
-            var result = _productService.DeleteProduct(id);
+            var result = await _productService.DeleteProduct(id);
 
             if (result == null)
                 return NotFound("product not found");

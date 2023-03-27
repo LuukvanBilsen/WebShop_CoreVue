@@ -5,6 +5,10 @@ node_modules
 webapi/obj/Debug/*
 webapi/bin/*
 
+webapi/bin/**
+webapi/obj/**
+
+
 # local env files
 .env.local
 .env.*.local
