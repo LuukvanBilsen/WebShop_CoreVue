@@ -3,6 +3,7 @@ node_modules
 /dist
 
 webapi/obj/Debug/*
+webapi/bin/*
 
 # local env files
 .env.local
